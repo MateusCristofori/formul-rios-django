@@ -15,11 +15,15 @@ class IndexView(views.View):
 class ExibirDadosView(views.View):
   
     def post(self, request):
-      if request.method == "POST":
-        form = PassagemForm(request.POST)
-      
-      context = {
-        'form': form
-      }
-      return render(request, 'exibir_dados.html', context)
-        
+      form = PassagemForm(request.POST)
+      if form.is_valid():
+        context = {
+          'form': form
+        }
+        return render(request, 'exibir_dados.html', context)
+      else:
+        print('form inválido')
+        context = {
+          'form': form
+        }
+        return render(request, 'index.html', context)
